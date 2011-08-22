@@ -89,7 +89,7 @@ END;
 			$result = curl_exec($ch);
 			curl_close($ch);	
 		} else {
-			$result = $this->do_post_request($this->url . '/webapps/ws/services/' . $service . '.WS', $request, "Content-type: text/xml; charset=utf-8\nSOAPAction: \"" . $method . "\"");
+			$result = $this->doPostRequest($this->url . '/webapps/ws/services/' . $service . '.WS', $request, "Content-type: text/xml; charset=utf-8\nSOAPAction: \"" . $method . "\"");
 		}
 		
 		$result_array = $this->xmlstr_to_array($result);
@@ -97,7 +97,11 @@ END;
 		return $result_array['soapenv:Body']['ns:' . $method . 'Response']['ns:return'];
 	}
 	
-	private function do_post_request($url, $data, $optional_headers = null) {
+	/*
+	 * This function can be found here:
+	 * http://wezfurlong.org/blog/2006/nov/http-post-from-php-without-curl/
+	 */
+	private function doPostRequest($url, $data, $optional_headers = null) {
 		$params = array('http' => array(
 		            'method' => 'POST',
 		            'content' => $data
@@ -124,44 +128,45 @@ END;
 	}
 	
 	function domnode_to_array($node) {
-	  $output = array();
-	  switch ($node->nodeType) {
-	   case XML_CDATA_SECTION_NODE:
-	   case XML_TEXT_NODE:
-	    $output = trim($node->textContent);
-	   break;
-	   case XML_ELEMENT_NODE:
-	    for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
-	     $child = $node->childNodes->item($i);
-	     $v = $this->domnode_to_array($child);
-	     if(isset($child->tagName)) {
-	       $t = $child->tagName;
-	       if(!isset($output[$t])) {
-	        $output[$t] = array();
-	       }
-	       $output[$t][] = $v;
-	     }
-	     elseif($v) {
-	      $output = (string) $v;
-	     }
-	    }
-	    if(is_array($output)) {
-	     if($node->attributes->length) {
-	      $a = array();
-	      foreach($node->attributes as $attrName => $attrNode) {
-	       $a[$attrName] = (string) $attrNode->value;
-	      }
-	      $output['@attributes'] = $a;
-	     }
-	     foreach ($output as $t => $v) {
-	      if(is_array($v) && count($v)==1 && $t!='@attributes') {
-	       $output[$t] = $v[0];
-	      }
-	     }
-	    }
-	   break;
-	  }
-	  return $output;
+		$output = array();
+		
+		switch ($node->nodeType) {
+			case XML_CDATA_SECTION_NODE:
+			case XML_TEXT_NODE:
+				$output = trim($node->textContent);
+				break;
+			case XML_ELEMENT_NODE:
+				for ($i=0, $m=$node->childNodes->length; $i<$m; $i++) {
+					$child = $node->childNodes->item($i);
+					$v = $this->domnode_to_array($child);
+					if(isset($child->tagName)) {
+						$t = $child->tagName;
+						if(!isset($output[$t])) {
+							$output[$t] = array();
+						}
+						$output[$t][] = $v;
+					} elseif($v) {
+						$output = (string) $v;
+					}
+				}	
+				if(is_array($output)) {
+					if($node->attributes->length) {
+						$a = array();
+						foreach($node->attributes as $attrName => $attrNode) {
+							$a[$attrName] = (string) $attrNode->value;
+						}
+						$output['@attributes'] = $a;
+					}
+					foreach ($output as $t => $v) {
+						if(is_array($v) && count($v)==1 && $t!='@attributes') {
+							$output[$t] = $v[0];
+						}
+					}
+				}
+			break;
+		}
+		
+		return $output;
 	}	
 	
 }
