@@ -22,6 +22,11 @@ class BbPhp {
 			$password = $this->session_id;
 		}
 		
+		/**
+		 * This header is sensitive to line breaks and you should avoid
+		 * letting things like Eclipse do auto-formatting on it.    
+		 * 
+		 **/
 		$header = <<<END
 		<SOAP-ENV:Header>
 	        <wsse:Security SOAP-ENV:mustunderstand="true" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
@@ -91,6 +96,11 @@ END;
 		return $request;
 	}
 	
+	
+	/**
+	 * The call() magic method is used here to access methods from BB that have not been defined in the class.
+	 * In theory you can access any method that the BB object provides if you have added it to your "Context". 
+	 */
 	public function __call($method, $args) {
 		return $this->doCall($method, $args[0], $args[1]);
 	}
