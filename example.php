@@ -62,10 +62,22 @@ $results = $blackboard->getStaffInfo("Course", array("courseId" => $course_id));
 echo "getStaffInfo() method. <br /> Calling a method <strong>with</strong> the course id, $course_id, from previous call.";
 echo "<pre>".print_r($results, true)."</pre>";
 
-//Calling a method using the cFilter --returns MANY results, greedy.
-//$results = $blackboard->getCourse("Course", array("cFilter" => "name:Programming with Python"));
-//echo "getCourse() method.  <br /> Using the cFilter, search by keyword 'python' to find a class.";
+//$filter = $blackboard->CourseFilter();
+
+//var_dump($filter);
+
+//$results = $filter->getAvailable();
 //echo "<pre>".print_r($results, true)."</pre>";
+
+//Calling a method using the cFilter --returns MANY results, greedy.
+$results = $blackboard->getCourse("Course", array("cFilter" => 'python'));
+echo "getCourse() method.  <br /> Using the cFilter, search by keyword 'python' to find a class.";
+echo "<pre>".print_r($results, true)."</pre>";
+
+
+
+
+
 
 
 //$results = $blackboard->getCourseAnnouncements("Announcement");
