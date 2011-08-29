@@ -30,6 +30,7 @@ pre {
 
 </head>
 <body>
+
 <?php
 //Set the blackboard server your using
 $server = "http://YOUR.SERVER.NAME";

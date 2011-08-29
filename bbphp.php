@@ -1,5 +1,6 @@
 <?php 
 include('services/course.php');
+include('services/announcement.php');
 
 class BbPhp {
 	
@@ -84,6 +85,18 @@ END;
 						break;
 				}
 				break;
+			case 'Announcement':
+				switch ($method) {
+					case 'getCourseAnnouncements':
+						$announcements = new Announcement();
+						$body = $this->buildBody($method, $service, $announcements->getCourseAnnouncements($args));
+						//die(print_r($body));
+						break;
+					default:
+						$body = $this->buildBody($method, $service, $args);
+						break;
+				}
+				break;	
 			default:
 				$body = $this->buildBody($method, $service, $args);
 				break;
