@@ -70,6 +70,7 @@ echo "<pre>".print_r($results, true)."</pre>";
 //echo "<pre>".print_r($results, true)."</pre>";
 
 //Calling a method using the cFilter --returns MANY results, greedy.
+
 $results = $blackboard->getCourse("Course", array("cFilter" => 'python'));
 echo "getCourse() method.  <br /> Using the cFilter, search by keyword 'python' to find a class.";
 echo "<pre>".print_r($results, true)."</pre>";
