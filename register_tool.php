@@ -32,7 +32,7 @@ pre {
 <body>
 <?php
 //Set the blackboard server your using
-$server = "http://bb9test.stedwards.edu";
+$server = "http://YOUR.SERVER.NAME";
 //Init the Blackboard object
 $blackboard = new BbPhp($server);
 echo "An initial blackboard object. <br />";
@@ -40,11 +40,11 @@ var_dump($blackboard);
 
 $results = $blackboard->registerTool("Context",
 	array(
-		"clientVendorId"=>'aaron_proxy', 
-		'clientProgramId'=>'example_tool',
-		'registrationPassword'=>"hilltopper",
+		"clientVendorId"=>'VENDORNAME', 
+		'clientProgramId'=>'CLIENTNAME',
+		'registrationPassword'=>"PASSWORD",
 		"description"=>"Example Tool Registration",
-		"initialSharedSecret"=>"MassiveNinjasEpicSlurpees", 
+		"initialSharedSecret"=>"SECRET", 
 		"requiredToolMethods" => 
 			array(
 				"Context.WS:login", 
