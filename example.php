@@ -1,10 +1,11 @@
 <?php 
-/**
- * Note: You need to have a registered tool in place before running any BlackBoard connection scripts.
- *  
- *  This is a basic example script showing how to connect to blackboard and useing the BbPhp class.
- * 
- */
+ /*Note: ************************************************************************************************ 
+ * 	You need to have a registered tool in place before running any BlackBoard connection scripts.       *
+ *  Run the register_tool.php script first. Enter your Proxy-Tool information here. You will need administrator access to the   *
+ *  Blackboard server in order to activate the proxy-tool you create. Once you run this script, login   *
+ *  to your BB9 server, go to the System Admin tab, Building Blocks > Proxy Tools and select to edit    * 
+ *  the new tool to make it available for use.															*
+ *******************************************************************************************************/	
 include "bbphp.php";
 ?>
 <html>
@@ -62,31 +63,23 @@ $results = $blackboard->getStaffInfo("Course", array("courseId" => $course_id));
 echo "getStaffInfo() method. <br /> Calling a method <strong>with</strong> the course id, $course_id, from previous call.";
 echo "<pre>".print_r($results, true)."</pre>";
 
-//$filter = $blackboard->CourseFilter();
 
-//var_dump($filter);
-
-//$results = $filter->getAvailable();
-//echo "<pre>".print_r($results, true)."</pre>";
-
-//Calling a method using the cFilter --returns MANY results, greedy.
-
-$results = $blackboard->getCourse("Course", array("cFilter" => 'python'));
-echo "getCourse() method.  <br /> Using the cFilter, search by keyword 'python' to find a class.";
+$results = $blackboard->getCourse("Course", array("filterType"=> '3', 'ids'=> $course_id ));
+echo "getCourse() method.  <br /> Using the cFilter, search by course id: $course_id to find a class.";
 echo "<pre>".print_r($results, true)."</pre>";
 
+$results = $blackboard->getCourseAnnouncements("Announcement", array("filterType"=> '6'));
+echo "getCourseAnnouncements() method.  <br /> Using search by course id: $course_id to find a class.";
+echo "<pre>".print_r($results, true)."</pre>";
+
+echo "Perform some soap discovery <br />";
+$client = new SoapClient("http://bb9test.stedwards.edu/webapps/ws/services/Announcement.WS?wsdl");
+echo "Get functions <br />";
+var_dump($client->__getFunctions());
+echo "Get Types <br />";
+var_dump($client->__getTypes());
 
 
-
-
-
-
-//$results = $blackboard->getCourseAnnouncements("Announcement");
-//echo "<pre>".print_r($results, true)."</pre>";
-
-//not working
-//$results = $blackboard->getUser("User", array("UserFilter"=>"aaronm"));
-//echo "<pre>".print_r($results, true)."</pre>";
 
 ?>
 </body>
