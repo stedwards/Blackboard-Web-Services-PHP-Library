@@ -8,7 +8,6 @@ include('services/course.php');
 include('services/gradebook.php');
 include('services/user.php');
 include('services/util.php');
-include('services/announcement.php');
 
 class BbPhp {
 	

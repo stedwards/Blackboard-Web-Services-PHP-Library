@@ -1,15 +1,15 @@
-<?php
-class Announcement {
-	public function getCourseAnnouncements($args) {
-		$body = '<ns1:filter xmlns:ns2="http://annountcement.ws.blackboard/xsd">';
-		
-		foreach ($args as $key => $arg) {
-			$body .= '<ns2:' . $key . '>' . $arg . '</ns2:' . $key . '>';
-		}
-
-		$body .= '</ns1:filter>';		
-		
-		return $body;
+<?php 
+/**
+ * This is a stub class for service calls made under the Announcement service.
+ * 
+ * @author johns
+ *
+ */
+class Announcement extends Service {
+	
+	public function __call($method, $args = null) {
+		return parent::buildBody($method, 'Announcement', $args[0]);
 	}
 }
+
 ?>
