@@ -1,5 +1,13 @@
-<?php 
+<?php
+include('services/service.php'); 
+include('services/announcement.php');
+include('services/calendar.php');
+include('services/content.php');
+include('services/context.php');
 include('services/course.php');
+include('services/gradebook.php');
+include('services/user.php');
+include('services/util.php');
 
 class BbPhp {
 	
@@ -43,59 +51,19 @@ END;
 		return $header;
 	}
 	
-	private function buildBody($method = null, $service, $args = null) {
-		$body = '<SOAP-ENV:Body xmlns:ns1="http://' . strtolower($service) . '.ws.blackboard">';
-		$body .= "<ns1:$method>";
-		
-		if (!is_array($args) && is_string($args) && $args != null) {
-			$body .= $args;
-		} else {
-			if ($args != null) {
-				foreach($args as $key => $arg) {
-					if (is_array($arg)) {
-						foreach($arg as $sub_arg) {
-							$body .= "<ns1:$key>$sub_arg</ns1:$key>";
-						}
-					} else {
-						$body .= "<ns1:$key>$arg</ns1:$key>";
-					}
-				}
-			}
-		}
-		
-		$body .= "</ns1:$method>";
-		$body .= '</SOAP-ENV:Body>';
-		
-		return $body;
-	}
-	
 	private function buildRequest($method = null, $service, $args = null) {
 		$header = $this->buildHeader();
 		
-		switch ($service) {
-			case 'Course':
-				switch ($method) {
-					case 'getCourse':
-						$course = new Course();
-						$body = $this->buildBody($method, $service, $course->getCourse($args));
-						break;
-					default:
-						$body = $this->buildBody($method, $service, $args);
-						break;
-				}
-				break;
-			default:
-				$body = $this->buildBody($method, $service, $args);
-				break;
-		}
-		
+		$serviceObject = new $service();
+
+		$body = $serviceObject->$method($args);
+
 		$request = '<SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$request .= $header.$body;
 		$request .= '</SOAP-ENV:Envelope>';
-		
+
 		return $request;
 	}
-	
 	
 	/**
 	 * The call() magic method is used here to access methods from BB that have not been defined in the class.

@@ -1,5 +1,6 @@
 <?php
-class Course {
+class Course extends Service {
+	
 	public function getCourse($args) {
 		$body = '<ns1:filter xmlns:ns2="http://course.ws.blackboard/xsd">';
 		
@@ -9,7 +10,11 @@ class Course {
 
 		$body .= '</ns1:filter>';		
 		
-		return $body;
+		return parent::buildBody("getCourse", "Course", $body);
+	}
+
+	public function __call($method, $args = null) {
+		return parent::buildBody($method, "Course", $args[0]);
 	}
 }
 ?>
