@@ -94,7 +94,7 @@ END;
 		
 		$result_array = $this->xmlstr_to_array($result);
 
-		return $result_array['soapenv:Body']['ns:' . $method . 'Response']['ns:return'];
+		return $result_array['Body'][$method . 'Response']['return'];
 	}
 	
 	/*
@@ -141,14 +141,22 @@ END;
 					$v = $this->domnode_to_array($child);
 					if(isset($child->tagName)) {
 						$t = $child->tagName;
-						if(!isset($output[$t])) {
-							$output[$t] = array();
+						if (strpos($t, ':') !== false) {
+							$temp = explode(':', $t);
+							$key = $temp[1];
+						} else {
+							$key = $t;
 						}
-						$output[$t][] = $v;
+						$test = substr($t, strpos($t, ':') + 1, strlen($t) - strpos($t, ':') + 1);
+						if(!isset($output[$key])) {
+							$output[$key] = array();
+						}
+						$output[$key][] = $v;
 					} elseif($v) {
 						$output = (string) $v;
 					}
 				}	
+
 				if(is_array($output)) {
 					if($node->attributes->length) {
 						$a = array();
