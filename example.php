@@ -96,29 +96,29 @@ echo "<pre>".print_r($results, true)."</pre>";
  * 
  * @var unknown_type
  */
-echo "<strong>Testing different filter Types. <br />";
-foreach($results as $content){
-print("Content ID: ".$content['id']." <br />");
-$results = $blackboard->getContentFiles("Content", array("courseId" => $course_id, "contentId" => $content['id']));
+echo "<strong>Testing different filter Types.</strong> <br />";
+
+
+$results = $blackboard->getContentFiles("Content", array("courseId" => $course_id, "contentId" => '_27446_1'));
 echo "getContentFiles() method.  <br />";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>1, "contentId"=>$content['id'])));
+$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>1, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 1 GET_BY_CONTENT_ID";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "contentId"=>$content['id'])));
+$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 2 GET_IMMEDIATE_CHILDREN_BY_CONTENTID";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>3, "contentId"=>$content['id'])));
+$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>3, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 3 GET_CHILDREN_BY_CONTENTID : contentId";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>4, "contentId"=>$content['id'])));
+$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>4, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 4 GET_ANCESTOR_BY_CONTENTID";
 echo "<pre>".print_r($results, true)."</pre>";
-}
+
 
 $results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>5)));
 echo "getFilteredContent() method.  <br /> Filter Type 5 GET_ROOT_ENTRIES";
