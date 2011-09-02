@@ -5,6 +5,7 @@ include('services/calendar.php');
 include('services/content.php');
 include('services/context.php');
 include('services/course.php');
+include('services/coursemembership.php');
 include('services/gradebook.php');
 include('services/user.php');
 include('services/util.php');
