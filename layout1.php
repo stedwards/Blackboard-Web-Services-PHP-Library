@@ -129,14 +129,16 @@ if($results == TRUE){
 	<?php 
 	foreach($courses as $course){
 	foreach($course['content_groups'][0]['items'] as $assignment){
-		echo "<h6>".$assignment['title']."</h6><p>".$assignment['description']."</p>"; 
+		if((strlen($assignment['title']) > 2) AND $assignment['contentHandler'] != "resource/x-bb-folder" ){
+			echo "<h6>".$assignment['title']."</h6><p>".$assignment['description']."</p>"; 
+		}
 	}
 	}
 
 ?>
 </section>
 </div>
-<div clas="row">
+<div class="row">
 <section id="classdocs"> 
  <div class="page-header"> 
     <h5>Class Documents</h5> 
@@ -144,14 +146,29 @@ if($results == TRUE){
   
 	<?php 
 	foreach($courses as $course){
+		 $this_course_id = $course['externalId'];
 	foreach($course['content_groups'][1]['items'] as $document){
+		
+		if((strlen($document['title']) > 2) AND (is_string($document['description']))  ){
 		echo "<h6>".$document['title']."</h6><p>".$document['description']."</p>"; 
+		}
+		
+		if($document['contentHandler'] == "resource/x-bb-file"){
+			$file = $blackboard->getContentFiles("Content", array('courseId' => $this_course_id , 'contentId'=>$document['id']));	
+			echo "<h6>".$document['title']."</h6>"; 
+			echo '<a href="https://bb9test.stedwards.edu/bbcswebdav/pid-27457-dt-content-rid-44153_1'.$file['strName'].'">Download</a><br />';	
+			//echo "<pre>".print_r($document, true)."</pre><br />"; 
+			//echo "<pre>".print_r($file, true)."</pre>"; 
+			
+			
+		}
 	}
 	}
 
 ?>
 </section>
-
+</div>
+<div class="row">
 <section id="debug">
 <pre>
 <?php print_r($courses);?>
