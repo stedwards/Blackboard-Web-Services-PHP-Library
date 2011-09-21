@@ -6,8 +6,8 @@ include "bbphp.php";
 <title>Example Blackboard Calls and output.</title>
 <style>
 body {
-	padding: 20px 20px 20px 20px;
-	margin: 20px 20px 20px 20px;
+	padding: 40px 20px 20px 20px;
+	margin: 0px 20px 20px 20px;
 }
 
 pre {
@@ -16,6 +16,8 @@ pre {
 	padding: 20px 20px 20xp 20px;
 }
 </style>
+
+<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.3.0/bootstrap.min.css">
 
 </head>
 <body>
@@ -80,16 +82,95 @@ if($results == TRUE){
 		}
 			
 	}
-	echo "<pre>".print_r($courses, true)."</pre>";
+	?>
+<div class="topbar" > 
+      <div class="topbar-inner"> 
+        <div class="container"> 
+          <a class="brand" href="#">Bb9PHP</a> 
+          <ul class="nav"> 
+           
+            <li><a href="#announce">Announcements</a></li> 
+            <li><a href="#assignme">Assignments</a></li> 
+  			<li><a href="#classdocs">Class Documents</a></li> 
+  				<li><a href="#debug">Debug</a></li> 
+          </ul> 
+        </div> 
+      </div> 
+    </div> 	
+<div class="container">
 
+<div class="row">
+<section id="announce"> 
 
-
-}else{
-
-	echo "Well this is a problem. The Blackboard server could not be reached. Try again later, we're working on this right now.";
-
-}
+ <div class="page-header"> 
+    <h5>Announcements</h5> 
+  </div> 
+  
+	<?php 
+	foreach($courses as $course){
+		$course_id = $course['externalId'];
+		$results = $blackboard->getCourseAnnouncements("Announcement", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "courseId"=>$course_id )));
+		foreach($results as $announcement){
+			echo "<h6>".$announcement['title']."</h6><p>".$announcement['body']."</p>";
+		}
+	}
+	
 
 ?>
+</section>
+</div>
+<div class="row">
+<section id="assignme"> 
+
+ <div class="page-header"> 
+    <h5>Assignments</h5> 
+  </div> 
+  
+	<?php 
+	foreach($courses as $course){
+	foreach($course['content_groups'][0]['items'] as $assignment){
+		echo "<h6>".$assignment['title']."</h6><p>".$assignment['description']."</p>"; 
+	}
+	}
+
+?>
+</section>
+</div>
+<div clas="row">
+<section id="classdocs"> 
+ <div class="page-header"> 
+    <h5>Class Documents</h5> 
+  </div> 
+  
+	<?php 
+	foreach($courses as $course){
+	foreach($course['content_groups'][1]['items'] as $document){
+		echo "<h6>".$document['title']."</h6><p>".$document['description']."</p>"; 
+	}
+	}
+
+?>
+</section>
+
+<section id="debug">
+<pre>
+<?php print_r($courses);?>
+
+</pre>
+</section>
+
+</div>
+
+
+<?php 
+
+}else{
+	echo "<div class=\"alert-message block-message warning\">Well this is a problem. The Blackboard server could not be reached. Try again later, we're working on this right now.</div>";
+}
+	
+	
+?>
+</div>
+
 </body>
 </html>
