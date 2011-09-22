@@ -13,13 +13,14 @@ include('services/util.php');
 class BbPhp {
 	
 	private $session_id = null;
+	private $services = array('Announcement', 'Calendar', 'Content', 'Context', 'Course', 'CourseMembership', 'Gradebook', 'NotificationDistributorOperations', 'User', 'Util');
 	public $url = null;
 	public $use_curl = true;
 	
 	public function __construct($url = null, $use_curl = true) {
 		$this->url = $url;
 		$this->use_curl = $use_curl;
-		$this->session_id = $this->initialize("Context");
+		$this->session_id = $this->Context("initialize");
 	}
 	
 	private function buildHeader() {
@@ -71,7 +72,12 @@ END;
 	 * In theory you can access any method that the BB object provides if you have added it to your "Context". 
 	 */
 	public function __call($method, $args) {
-		return $this->doCall($method, $args[0], $args[1]);
+		
+		if (in_array($method, $this->services)) {
+			return $this->doCall($args[0], $method, $args[1]);
+		} else {
+			return $this->doCall($method, $args[0], $args[1]);
+		}
 	}
 	
 	public function doCall($method = null, $service = "Context", $args = null) {
@@ -96,7 +102,7 @@ END;
 		$result_array = $this->xmlstr_to_array($result);
 
 		return $result_array['Body'][$method . 'Response']['return'];
-	}
+	}	
 	
 	/*
 	 * This function can be found here:
