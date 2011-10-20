@@ -23,3 +23,8 @@ a network analysis tool, to inspect the packets being sent from the Python
 library to Blackboard. We then reconstructed the XML and headers sent from 
 that library using cURL in PHP. Using cURL (or built-in PHP streams), we then
 successfully connected to Blackboard to perform operations. 
+
+License
+-------
+
+BbPHP: Blackboard Web Services Library for PHP is licensed under the MIT License.

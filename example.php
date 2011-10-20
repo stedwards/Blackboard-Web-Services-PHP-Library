@@ -1,4 +1,11 @@
 <?php 
+/*
+ * BbPHP: Blackboard Web Services Library for PHP
+ * Copyright (C) 2011 by St. Edward's University (www.stedwards.edu)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ */ 
  /*Note: ************************************************************************************************ 
  * 	You need to have a registered tool in place before running any BlackBoard connection scripts.       *
  *  Run the register_tool.php script first. Enter your Proxy-Tool information here. You will need administrator access to the   *
