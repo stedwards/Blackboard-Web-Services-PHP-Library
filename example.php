@@ -5,8 +5,8 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- */ 
- /*Note: ************************************************************************************************ 
+ * 
+ * Note: ************************************************************************************************ 
  * 	You need to have a registered tool in place before running any BlackBoard connection scripts.       *
  *  Run the register_tool.php script first. Enter your Proxy-Tool information here. You will need administrator access to the   *
  *  Blackboard server in order to activate the proxy-tool you create. Once you run this script, login   *
@@ -45,42 +45,42 @@ var_dump($blackboard);
 
 
 //Use the information matching a registered Proxy Tool to login
-$results = $blackboard->loginTool("Context", array("password"=> "MassiveNinjasEpicSlurpees","clientVendorId"=> "aaron_proxy","clientProgramId"=> "example_tool","loginExtraInfo"=> "", "expectedLifeSeconds" => 5000));
+$results = $blackboard->Context("loginTool", array("password"=> "MassiveNinjasEpicSlurpees","clientVendorId"=> "aaron_proxy","clientProgramId"=> "example_tool","loginExtraInfo"=> "", "expectedLifeSeconds" => 5000));
 echo "Outcome of attempted Login Tool method. <br />";
 echo "<pre>".print_r($results, true)."</pre>";
 
 //Calling a method with no required fields. This is a part of the Context object.
-$results = $blackboard->getSystemInstallationId("Context");
+$results = $blackboard->Context("getSystemInstallationId");
 echo "getSystemInstallationId() method. <br />Calling a method with no required fields. This is a part of the Context object.";
 echo "<pre>".print_r($results, true)."</pre>";
 
 //Calling a method with no required fields. This is a part of the Context object.
-$results = $blackboard->getServerVersion("Context");
+$results = $blackboard->Context("getServerVersion");
 echo "getServerVersion() method. <br />Calling a method with no required fields. This is a part of the Context object.";
 echo "<pre>".print_r($results, true)."</pre>";
 
 //Calling a method WITH required fields.
-$results = $blackboard->getMemberships("Context", array("userid"=> "aaronm"));
+$results = $blackboard->Context("getMemberships", array("userid"=> "aaronm"));
 echo "getMemberships() method. <br /> Calling a method <strong>with</strong> required fields. This is a part of the Context object.";
 echo "<pre>".print_r($results, true)."</pre>";
 $course_id = $results['externalId'];
 
 //Calling  a method using course id gleamed from the last call
-$results = $blackboard->getStaffInfo("Course", array("courseId" => $course_id));
+$results = $blackboard->Course("getStaffInfo", array("courseId" => $course_id));
 echo "getStaffInfo() method. <br /> Calling a method <strong>with</strong> the course id, $course_id, from previous call.";
 echo "<pre>".print_r($results, true)."</pre>";
 
 //Calling methods with complex types.
-$results = $blackboard->getCourse("Course", array("filterType"=> '3', 'ids'=> $course_id ));
+$results = $blackboard->Course("getCourse", array("filterType"=> '3', 'ids'=> $course_id ));
 echo "getCourse() method.  <br /> Using the cFilter, search by course id: $course_id to find a class.";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getCourseAnnouncements("Announcement", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "courseId"=>$course_id )));
+$results = $blackboard->Announcement("getCourseAnnouncements", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "courseId"=>$course_id )));
 echo "getCourseAnnouncements() method.  <br /> Using search by course id: $course_id to find a class.";
 echo "<pre>".print_r($results, true)."</pre>";
 
 
-$results = $blackboard->getTOCsByCourseId("Content", array("courseId" => $course_id));
+$results = $blackboard->Content("getTOCsByCourseId", array("courseId" => $course_id));
 echo "getTOCsByCourseId() method.  <br /> Using search by course id: $course_id to find a class.";
 echo "<pre>".print_r($results, true)."</pre>";
 
@@ -106,32 +106,32 @@ echo "<pre>".print_r($results, true)."</pre>";
 echo "<strong>Testing different filter Types.</strong> <br />";
 
 
-$results = $blackboard->getContentFiles("Content", array("courseId" => $course_id, "contentId" => '_27446_1'));
+$results = $blackboard->Content("getContentFiles", array("courseId" => $course_id, "contentId" => '_27446_1'));
 echo "getContentFiles() method.  <br />";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>1, "contentId"=>'_27446_1')));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>1, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 1 GET_BY_CONTENT_ID";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "contentId"=>'_27446_1')));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 2 GET_IMMEDIATE_CHILDREN_BY_CONTENTID";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>3, "contentId"=>'_27446_1')));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>3, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 3 GET_CHILDREN_BY_CONTENTID : contentId";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>4, "contentId"=>'_27446_1')));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>4, "contentId"=>'_27446_1')));
 echo "getFilteredContent() method.  <br /> Filter Type 4 GET_ANCESTOR_BY_CONTENTID";
 echo "<pre>".print_r($results, true)."</pre>";
 
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>5)));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>5)));
 echo "getFilteredContent() method.  <br /> Filter Type 5 GET_ROOT_ENTRIES";
 echo "<pre>".print_r($results, true)."</pre>";
 
-$results = $blackboard->getFilteredContent("Content", array("courseId" => $course_id, "filter"=>array("filterType"=>6)));
+$results = $blackboard->Content("getFilteredContent", array("courseId" => $course_id, "filter"=>array("filterType"=>6)));
 echo "getFilteredContent() method.  <br /> Filter Type 6.";
 echo "<pre>".print_r($results, true)."</pre>";
 

@@ -34,12 +34,12 @@ $server = "http://bb9test.stedwards.edu";
 //Init the Blackboard object
 $blackboard = new BbPhp($server);
 //Use the information matching a registered Proxy Tool to login
-$results = $blackboard->loginTool("Context", array("password"=> "MassiveNinjasEpicSlurpees","clientVendorId"=> "aaron_proxy","clientProgramId"=> "example_tool","loginExtraInfo"=> "", "expectedLifeSeconds" => 5000));
+$results = $blackboard->Context("loginTool", array("password"=> "MassiveNinjasEpicSlurpees","clientVendorId"=> "aaron_proxy","clientProgramId"=> "example_tool","loginExtraInfo"=> "", "expectedLifeSeconds" => 5000));
 
 if($results == TRUE){
 
 	//Calling a method WITH required fields.
-	$results = $blackboard->getMemberships("Context", array("userid"=> "aaronm"));
+	$results = $blackboard->Context("getMemberships", array("userid"=> "aaronm"));
 
 
 
@@ -65,7 +65,7 @@ if($results == TRUE){
 	//Add some detail to the class list...
 	$course_list = array();
 	foreach($courses as &$course){
-		$course_detail = $blackboard->getCourse("Course", array("filterType"=> '3', 'ids'=> $course['externalId'] ));
+		$course_detail = $blackboard->Course("getCourse", array("filterType"=> '3', 'ids'=> $course['externalId'] ));
 		$course['title'] = $course_detail['name'];
 		$course['courseId'] = $course_detail['courseId'];
 	}
@@ -73,7 +73,7 @@ if($results == TRUE){
 
 
 	foreach($courses as &$course) {
-		$results = $blackboard->getFilteredContent("Content", array("courseId" => $course['externalId'], "filter"=>array("filterType"=>5)));
+		$results = $blackboard->Content("getFilteredContent", array("courseId" => $course['externalId'], "filter"=>array("filterType"=>5)));
 		//echo "getFilteredContent() method.  <br /> Filter Type 5 GET_ROOT_ENTRIES";
 		//echo "<pre>".print_r($results, true)."</pre>";
 		foreach($results as $result){
@@ -82,7 +82,7 @@ if($results == TRUE){
 		
 		
 		foreach($course['content_groups'] as &$content_group){
-			$results = $blackboard->getFilteredContent("Content", array("courseId" => $course['externalId'], "filter"=>array("filterType"=>3, "contentId"=>$content_group['id'])));
+			$results = $blackboard->Content("getFilteredContent", array("courseId" => $course['externalId'], "filter"=>array("filterType"=>3, "contentId"=>$content_group['id'])));
 			foreach($results as $result){
 				$content_group['items'][] = array('title' => $result['title'], 'description' => $result['body'], "id" => $result['id'], "contentHandler" => $result['contentHandler']);	
 			}
@@ -116,7 +116,7 @@ if($results == TRUE){
 	<?php 
 	foreach($courses as $course){
 		$course_id = $course['externalId'];
-		$results = $blackboard->getCourseAnnouncements("Announcement", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "courseId"=>$course_id )));
+		$results = $blackboard->Announcement("getCourseAnnouncements", array("courseId" => $course_id, "filter"=>array("filterType"=>2, "courseId"=>$course_id )));
 		foreach($results as $announcement){
 			echo "<h6>".$announcement['title']."</h6><p>".$announcement['body']."</p>";
 		}
@@ -161,7 +161,7 @@ if($results == TRUE){
 		}
 		
 		if($document['contentHandler'] == "resource/x-bb-file"){
-			$file = $blackboard->getContentFiles("Content", array('courseId' => $this_course_id , 'contentId'=>$document['id']));	
+			$file = $blackboard->Content("getContentFiles", array('courseId' => $this_course_id , 'contentId'=>$document['id']));	
 			echo "<h6>".$document['title']."</h6>"; 
 			echo '<a href="https://bb9test.stedwards.edu/bbcswebdav/pid-27457-dt-content-rid-44153_1'.$file['strName'].'">Download</a><br />';	
 			//echo "<pre>".print_r($document, true)."</pre><br />"; 

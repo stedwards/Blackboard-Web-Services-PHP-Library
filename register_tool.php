@@ -45,7 +45,7 @@ $blackboard = new BbPhp($server);
 echo "An initial blackboard object. <br />";
 var_dump($blackboard);
 
-$results = $blackboard->registerTool("Context",
+$results = $blackboard->Context("registerTool",
 	array(
 		"clientVendorId"=>'VENDORNAME', 
 		'clientProgramId'=>'CLIENTNAME',
