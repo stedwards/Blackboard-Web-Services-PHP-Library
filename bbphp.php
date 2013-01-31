@@ -112,7 +112,8 @@ END;
 		
 		$result_array = $this->xmlstr_to_array($result);
 
-		return $result_array['Body'][$method . 'Response']['return'];
+		$final_result = (isset($result_array['Body'][$method . 'Response']['return'])) ? $result_array['Body'][$method . 'Response']['return'] : null;
+		return $final_result;
 	}	
 	
 	/*
