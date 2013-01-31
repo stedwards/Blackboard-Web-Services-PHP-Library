@@ -14,7 +14,7 @@
 class User extends Service {
 	
 	public function getUser($args) {
-		$body .= '<ns1:filter xmlns:ns2="http://user.ws.blackboard/xsd">';
+		$body = '<ns1:filter xmlns:ns2="http://user.ws.blackboard/xsd">';
 		
 		foreach ($args['filter'] as $key => $arg) {
 			$body .= '<ns2:' . $key . '>' . $arg . '</ns2:' . $key . '>';

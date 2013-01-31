@@ -80,6 +80,9 @@ END;
 	 * In theory you can access any method that the BB object provides if you have added it to your "Context". 
 	 */
 	public function __call($method, $args) {
+		if (!isset($args[1])) {
+			$args[1] = null;
+		}
 		
 		if (in_array($method, $this->services)) {
 			return $this->doCall($args[0], $method, $args[1]);
@@ -109,7 +112,8 @@ END;
 		
 		$result_array = $this->xmlstr_to_array($result);
 
-		return $result_array['Body'][$method . 'Response']['return'];
+		$final_result = (isset($result_array['Body'][$method . 'Response']['return'])) ? $result_array['Body'][$method . 'Response']['return'] : null;
+		return $final_result;
 	}	
 	
 	/*
